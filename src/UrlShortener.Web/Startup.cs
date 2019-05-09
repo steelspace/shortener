@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UrlShortener.Abstractions.Shortener;
 using UrlShortener.Data.Sqlite;
+using UrlShortener.Shortener;
 
 namespace PetrsUrlShortener
 {
@@ -29,6 +31,8 @@ namespace PetrsUrlShortener
 
 
             services.AddSqliteDataProvider();
+            services.AddSingleton<IShortUrlProvider, DbGeneratorShortProvider>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

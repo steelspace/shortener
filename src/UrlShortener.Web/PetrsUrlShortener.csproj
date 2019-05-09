@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UrlShortener.Abstractions\UrlShortener.Abstractions.csproj" />
     <ProjectReference Include="..\UrlShortener.Data.Sqlite\UrlShortener.Data.Sqlite.csproj" />
+    <ProjectReference Include="..\UrlShortener.Shortener\UrlShortener.Shortener.csproj" />
   </ItemGroup>
 
 </Project>

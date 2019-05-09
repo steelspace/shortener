@@ -10,17 +10,21 @@ namespace UrlShortener.Data.Sqlite
     {
         private readonly UrlDatabaseContext _databaseContext = new UrlDatabaseContext();
 
-        public async Task<bool> AddUrl(string url, string shortUrl, string userId)
+        public async Task<string> AddUrl(string url, string userId)
         {
-            await _databaseContext.AddAsync(
-                new ShortenedUrl()
-                    {
-                        Created = DateTimeOffset.Now,
-                        Url = url,
-                        ShortUrl = shortUrl
-                    });
+            var entityEntry = await _databaseContext.AddAsync(
+                            new ShortenedUrl()
+                                {
+                                    Created = DateTimeOffset.Now,
+                                    Url = url
+                                });
 
-            return (await _databaseContext.SaveChangesAsync()) == 0;
+            if ((await _databaseContext.SaveChangesAsync()) != 0)
+            {
+                return null;
+            }
+
+            return entityEntry.Entity.ShortUrl;
         }
 
         public async Task<ShortenedUrl> Get(string shortUrl)
