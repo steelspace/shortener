@@ -54,7 +54,6 @@ namespace PetrsUrlShortener
             // need valid TLS certificate
             // app.UseHttpsRedirection();
 
-            app.UseCookiePolicy();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

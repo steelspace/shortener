@@ -10,6 +10,7 @@ Url Shortener PoC
 	- availability, failure
 
 - scaling	
+	- super-scalable: NOSQL + pregenerated queue for ids (background process)
 	- use NoSql database /?
 	- generate key from MD5 or in db (all hash result are too long)
 	- check collisions (can live with that?)
@@ -28,4 +29,12 @@ Url Shortener PoC
 - todo
 	- logging
 	- monitoring
+	- testing
+	
+questions:
+- security
+	- guessable (sequential) slugs -> MD5, but not the shortest
+- expiration, i am against, url should be permanet eg.g always display the same content or result
+	
+	
 	
