@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Base36" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UrlShortener.Abstractions\UrlShortener.Abstractions.csproj" />
   </ItemGroup>
 

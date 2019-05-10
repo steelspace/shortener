@@ -1,5 +1,4 @@
-﻿using AdvancedREI;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PetrsUrlShortener.Database;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace UrlShortener.Data.Sqlite
     {
         private readonly UrlDatabaseContext _databaseContext = new UrlDatabaseContext();
 
-        public async Task<string> AddUrl(string url, string userId)
+        public async Task<ShortenedUrl> AddUrl(string url, string userId)
         {
             var entityEntry = await _databaseContext.AddAsync(
                             new ShortenedUrl()
@@ -31,34 +30,17 @@ namespace UrlShortener.Data.Sqlite
                 return null;
             }
 
-            return entityEntry.Entity.Id.ToBase36();
+            return entityEntry.Entity;
         }
 
-        public async Task<ShortenedUrl> Get(string slug)
+        public async Task<ShortenedUrl> Get(long id)
         {
-            try
-            { 
-                var url = await _databaseContext.FindAsync<ShortenedUrl>(slug.FromBase36());
-
-                return url;
-            }
-
-            catch (InvalidBase36NumberException)
-            {
-                return null;
-            }
+            return await _databaseContext.FindAsync<ShortenedUrl>(id);
         }
 
         public async Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId)
         {
-            var urls = await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
-
-            foreach (var url in urls)
-            {
-                url.Slug = url.Id.ToBase36();
-            }
-
-            return urls;
+            return await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
         }
     }
 }

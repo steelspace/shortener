@@ -6,9 +6,9 @@ namespace UrlShortener.Abstractions
 {
     public interface IDataProvider
     {
-        Task<string> AddUrl(string url, string userId);
+        Task<ShortenedUrl> AddUrl(string url, string userId);
 
-        Task<ShortenedUrl> Get(string slug);
+        Task<ShortenedUrl> Get(long id);
 
         Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId);
     }
