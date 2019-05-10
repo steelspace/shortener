@@ -23,16 +23,21 @@ namespace PetrsUrlShortener.Controllers
         {
             string slug = Request.Path;
 
-            string url = await _urlProvider.GetUrl(slug.TrimStart('/'));
+            var shortenedUrl = await _urlProvider.GetUrl(slug.TrimStart('/'));
 
-            if (url == null)
+            if (shortenedUrl == null)
             {
                 return NotFound();
             }
 
+            if (shortenedUrl.IsExpired)
+            {
+                return Content("We are sorry, the link has expired :(");
+            }
+
             return await Task.Run<ActionResult>(() =>
             {
-                return Redirect(url);
+                return Redirect(shortenedUrl.Url);
             });
         }
     }

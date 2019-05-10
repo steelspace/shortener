@@ -43,19 +43,19 @@ namespace PetrsUrlShortener.Controllers
 
         [HttpGet]
         [Route("{slug}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ShortenedUrl))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Produces("text/plain")]
+        [Produces("text/json")]
         public async Task<IActionResult> Get(string slug)
         {
-            string url = await _urlProvider.GetUrl(slug);
+            var shortenedUrl = await _urlProvider.GetUrl(slug);
 
-            if (url == null)
+            if (shortenedUrl == null)
             {
                 return NotFound();
             }
 
-            return Content(url);
+            return Json(shortenedUrl);
         }
 
         [HttpGet]

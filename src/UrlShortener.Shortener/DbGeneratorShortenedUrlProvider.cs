@@ -29,7 +29,7 @@ namespace UrlShortener.Shortener
             return shortenedUrl.Id.ToBase36();
         }
 
-        public async Task<string> GetUrl(string slug)
+        public async Task<ShortenedUrl> GetUrl(string slug)
         {
             long id;
 
@@ -50,7 +50,9 @@ namespace UrlShortener.Shortener
                 return null;
             }
 
-            return shortenedUrl.Url;
+            shortenedUrl.Slug = shortenedUrl.Id.ToBase36();
+
+            return shortenedUrl;
         }
 
         public async Task<IReadOnlyList<ShortenedUrl>> GetUrls(string userId)

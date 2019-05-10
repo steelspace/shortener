@@ -8,7 +8,7 @@ namespace UrlShortener.Abstractions.Shortener
     {
         Task<string> GenerateSlug(string url, string userId);
 
-        Task<string> GetUrl(string slug);
+        Task<ShortenedUrl> GetUrl(string slug);
 
         // needs paging, sorting etc.
         Task<IReadOnlyList<ShortenedUrl>> GetUrls(string userId);

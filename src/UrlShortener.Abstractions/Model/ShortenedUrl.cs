@@ -13,5 +13,7 @@ namespace UrlShortener.Abstractions.Model
         public DateTimeOffset Created { get; set; }
 
         public string UserId { get; set; }
+        
+        public bool IsExpired => Created.AddHours(1) < DateTimeOffset.Now;
     }
 }
