@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetrsUrlShortener.Models;
+using System;
 using System.Threading.Tasks;
 using UrlShortener.Abstractions.Model;
 using UrlShortener.Abstractions.Shortener;
@@ -24,12 +25,17 @@ namespace PetrsUrlShortener.Controllers
         [Produces("text/plain")]
         public async Task<IActionResult> Add([FromBody] ShortUrlRequest request)
         {
-            if (string.IsNullOrEmpty(request.Url) || string.IsNullOrEmpty(request.UserId))
+            if (string.IsNullOrEmpty(request.Url) || string.IsNullOrEmpty(request.BrowserId))
             {
                 return BadRequest();
             }
 
-            string slug = await _urlProvider.GenerateSlug(request.Url, request.UserId);
+            if (!Uri.TryCreate(request.Url, UriKind.Absolute, out _))
+            {
+                return BadRequest();
+            }
+
+            string slug = await _urlProvider.GenerateSlug(request.Url, request.BrowserId);
 
             return Content(slug);
         }
@@ -52,18 +58,18 @@ namespace PetrsUrlShortener.Controllers
         }
 
         [HttpGet]
-        [Route("all/{userId}")]
+        [Route("all/{browserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortenedUrl))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("text/json")]
-        public async Task<IActionResult> GetAll(string userId)
+        public async Task<IActionResult> GetAll(string browserId)
         {
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(browserId))
             {
                 return BadRequest();
             }
 
-            var urls = await _urlProvider.GetUrls(userId);
+            var urls = await _urlProvider.GetUrls(browserId);
 
             return Json(urls);
         }

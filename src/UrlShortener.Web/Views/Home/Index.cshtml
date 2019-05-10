@@ -2,7 +2,43 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script type="text/javascript">
+    async function onUrlClicked(url) {
+        let slug = await getShortUrl(url);
+
+        if (slug == null) {
+            alert("Invalid Url.");
+            return;
+        }
+
+        alert('Short Url created: /' + slug);
+    }
+
+    async function onAllUrlsClicked() {
+        let urls = await getUrls();
+
+        $("#urls-container").empty();
+
+        $.each(urls, function (i, url) {
+            $("#urls-container").append("<li id='url_" + url.id + "'><a href='http://localhost:5000/" + url.shortUrl + "'>/" + url.shortUrl + " (" + url.url + ")</a></li>");
+        });
+    }
+
+</script>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div>
+    <input type="text" id="url" name="url" />
+    <input type="button" value="Get Short Url"
+           onclick="onUrlClicked(document.getElementById('url').value)" />
+    <input type="button" value="Get My Urls"
+           onclick="onAllUrlsClicked()" />
+</div>
+
+<div>
+    <ul id="urls-container"></ul>
 </div>

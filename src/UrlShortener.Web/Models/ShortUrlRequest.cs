@@ -4,6 +4,6 @@
     {
         public string Url { get; set; }
         
-        public string UserId { get; set; }
+        public string BrowserId { get; set; }
     }
 }

@@ -21,9 +21,11 @@ namespace PetrsUrlShortener.Database
             //Define the Table(s) and References to be created automatically
             modelBuilder.Entity<ShortenedUrl>(b =>
             {
+                b.Ignore(e => e.ShortUrl);
+
                 b.HasKey(e => e.Id);
                 b.Property(e => e.Id).ValueGeneratedOnAdd();
-                
+
                 b.Property(e => e.Url).IsRequired().HasMaxLength(MAX_URL);
                 
                 b.HasIndex(e => e.UserId);

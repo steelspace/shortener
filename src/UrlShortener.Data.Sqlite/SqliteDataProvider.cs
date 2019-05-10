@@ -51,7 +51,14 @@ namespace UrlShortener.Data.Sqlite
 
         public async Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId)
         {
-            return await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
+            var urls = await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
+
+            foreach (var url in urls)
+            {
+                url.ShortUrl = url.Id.ToBase36();
+            }
+
+            return urls;
         }
     }
 }
