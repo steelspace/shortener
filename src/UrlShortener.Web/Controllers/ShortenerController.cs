@@ -12,9 +12,9 @@ namespace PetrsUrlShortener.Controllers
     [Route("/api/v1/short-url")]
     public class ShortenerController : Controller
     {
-        private readonly IShortUrlProvider _urlProvider;
+        private readonly IShortenedUrlProvider _urlProvider;
 
-        public ShortenerController(IShortUrlProvider urlProvider)
+        public ShortenerController(IShortenedUrlProvider urlProvider)
         {
             _urlProvider = urlProvider;
         }

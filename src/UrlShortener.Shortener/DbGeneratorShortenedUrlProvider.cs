@@ -8,11 +8,11 @@ using UrlShortener.Abstractions.Shortener;
 
 namespace UrlShortener.Shortener
 {
-    public class DbGeneratorShortProvider : IShortUrlProvider
+    public class DbGeneratorShortenedUrlProvider : IShortenedUrlProvider
     {
         private readonly IDataProvider _dataProvider;
 
-        public DbGeneratorShortProvider(IDataProvider dataProvider)
+        public DbGeneratorShortenedUrlProvider(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
         }

@@ -4,7 +4,7 @@ using UrlShortener.Abstractions.Model;
 
 namespace UrlShortener.Abstractions.Shortener
 {
-    public interface IShortUrlProvider
+    public interface IShortenedUrlProvider
     {
         Task<string> GenerateSlug(string url, string userId);
 

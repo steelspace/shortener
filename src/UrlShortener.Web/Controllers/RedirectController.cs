@@ -8,9 +8,9 @@ namespace PetrsUrlShortener.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class RedirectController: Controller
     {
-        private readonly IShortUrlProvider _urlProvider;
+        private readonly IShortenedUrlProvider _urlProvider;
 
-        public RedirectController(IShortUrlProvider urlProvider)
+        public RedirectController(IShortenedUrlProvider urlProvider)
         {
             _urlProvider = urlProvider;
         }

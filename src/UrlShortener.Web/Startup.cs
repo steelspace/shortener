@@ -32,7 +32,7 @@ namespace PetrsUrlShortener
 
 
             services.AddSqliteDataProvider();
-            services.AddSingleton<IShortUrlProvider, DbGeneratorShortProvider>();
+            services.AddSingleton<IShortenedUrlProvider, DbGeneratorShortenedUrlProvider>();
 
             services.AddSwaggerGen(c =>
             {
