@@ -35,6 +35,7 @@ questions:
 - security
 	- guessable (sequential) slugs -> MD5, but not the shortest
 - expiration, i am against, url should be permanet eg.g always display the same content or result
-	
+- allow duplicates?
+
 	
 	

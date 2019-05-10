@@ -27,16 +27,23 @@
 </script>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Url Shortener</h1>
 </div>
 
 <div>
-    <input type="text" id="url" name="url" />
-    <input type="button" value="Get Short Url"
-           onclick="onUrlClicked(document.getElementById('url').value)" />
-    <input type="button" value="Get My Urls"
-           onclick="onAllUrlsClicked()" />
+    <div>
+        <h3>Type url to shorten</h3>
+        <input type="text" id="url" name="url" />
+        <input type="button" value="Generate Short Url"
+               onclick="onUrlClicked(document.getElementById('url').value)" />
+        <br />
+    </div>
+    <div>
+        <h1>&nbsp;</h1>
+        <h3>Click to display all your shortened urls</h3>
+        <input type="button" value="Get All My Urls"
+               onclick="onAllUrlsClicked()" />
+    </div>
 </div>
 
 <div>
