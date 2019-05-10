@@ -30,7 +30,8 @@ namespace PetrsUrlShortener.Database
                 
                 b.HasIndex(e => e.UserId);
                 b.Property(e => e.UserId).IsRequired().HasMaxLength(LENGTH_USER_ID).IsFixedLength(true);
-                
+
+                b.HasIndex(e => e.Created);
                 b.Property(e => e.Created).IsRequired();
 
                 b.ToTable("Url");

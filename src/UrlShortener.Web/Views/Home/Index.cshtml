@@ -5,7 +5,7 @@
 <script type="text/javascript">
     const host = "http://localhost:5000";
 
-    async function onUrlClicked(url) {
+    async function addNewUrl(url) {
         const slug = await getSlug(url);
 
         if (slug == null) {
@@ -14,18 +14,29 @@
         }
 
         alert('Short Url created: /' + slug);
+
+        await displayAllUrls();
     }
 
-    async function onAllUrlsClicked() {
+    async function displayAllUrls() {
         const urls = await getUrls();
 
         $("#urls-container").empty();
+
+        if (urls.length == 0) {
+            $("#urls-container").append("<li>There are no shortened urls.</li>");
+        }
 
         $.each(urls, function (i, url) {
             $("#urls-container").append("<li id='url_" + url.id + "'><a href='"
                                             + host + "/" + url.slug + "'>/" + url.slug + " (" + url.url + ")</a></li>");
         });
     }
+
+    window.onload = function () {
+        displayAllUrls();
+    };
+
 </script>
 
 <div class="text-center">
@@ -37,17 +48,18 @@
         <h3>Type url to shorten</h3>
         <input type="text" id="url" name="url" />
         <input type="button" value="Generate Short Url"
-               onclick="onUrlClicked($('#url').val())" />
+               onclick="addNewUrl($('#url').val())" />
         <br />
     </div>
     <div>
         <h1>&nbsp;</h1>
         <h3>Click to display all your shortened urls</h3>
-        <input type="button" value="Get All My Urls"
-               onclick="onAllUrlsClicked()" />
     </div>
 </div>
 
 <div>
-    <ul id="urls-container"></ul>
+    <ul id="urls-container">
+    </ul>
 </div>
+
+<input type="button" value="Refresh List" onclick="displayAllUrls()" />

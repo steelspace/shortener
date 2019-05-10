@@ -40,7 +40,10 @@ namespace UrlShortener.Data.Sqlite
 
         public async Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId)
         {
-            return await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
+            return await _databaseContext.Urls
+                .Where(u => u.UserId == userId)
+                .OrderByDescending(u => u.Created)
+                .ToListAsync();
         }
     }
 }
