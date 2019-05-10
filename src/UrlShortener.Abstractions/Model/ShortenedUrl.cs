@@ -6,7 +6,7 @@ namespace UrlShortener.Abstractions.Model
     {
         public string Url { get; set; }
 
-        public string ShortUrl { get; set; }
+        public long Id { get; set; }
 
         public DateTimeOffset Created { get; set; }
 

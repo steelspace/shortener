@@ -1,5 +1,9 @@
-﻿using PetrsUrlShortener.Database;
+﻿using AdvancedREI;
+using Microsoft.EntityFrameworkCore;
+using PetrsUrlShortener.Database;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UrlShortener.Abstractions;
 using UrlShortener.Abstractions.Model;
@@ -16,22 +20,38 @@ namespace UrlShortener.Data.Sqlite
                             new ShortenedUrl()
                                 {
                                     Created = DateTimeOffset.Now,
-                                    Url = url
+                                    Url = url,
+                                    UserId = userId
                                 });
 
-            if ((await _databaseContext.SaveChangesAsync()) != 0)
+            var result = (await _databaseContext.SaveChangesAsync());
+            
+            if (result != 1)
             {
                 return null;
             }
 
-            return entityEntry.Entity.ShortUrl;
+            return entityEntry.Entity.Id.ToBase36();
         }
 
         public async Task<ShortenedUrl> Get(string shortUrl)
         {
-            var url = await _databaseContext.FindAsync<ShortenedUrl>(shortUrl);
+            try
+            { 
+                var url = await _databaseContext.FindAsync<ShortenedUrl>(shortUrl.FromBase36());
 
-            return url;
+                return url;
+            }
+
+            catch (InvalidBase36NumberException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId)
+        {
+            return await _databaseContext.Urls.Where(u => u.UserId == userId).ToListAsync();
         }
     }
 }

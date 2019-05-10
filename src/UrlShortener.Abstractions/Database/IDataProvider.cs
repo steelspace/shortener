@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UrlShortener.Abstractions.Model;
 
 namespace UrlShortener.Abstractions
@@ -8,5 +9,7 @@ namespace UrlShortener.Abstractions
         Task<string> AddUrl(string url, string userId);
 
         Task<ShortenedUrl> Get(string shortUrl);
+
+        Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId);
     }
 }

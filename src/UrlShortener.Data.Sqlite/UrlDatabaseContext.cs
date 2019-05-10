@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UrlShortener.Abstractions.Model;
-using UrlShortener.Data.Sqlite;
 
 namespace PetrsUrlShortener.Database
 {
@@ -22,10 +21,14 @@ namespace PetrsUrlShortener.Database
             //Define the Table(s) and References to be created automatically
             modelBuilder.Entity<ShortenedUrl>(b =>
             {
-                b.HasKey(e => e.ShortUrl);
-                b.Property(e => e.ShortUrl).HasValueGenerator<ShortUrlValueGenerator>();
+                b.HasKey(e => e.Id);
+                b.Property(e => e.Id).ValueGeneratedOnAdd();
+                
                 b.Property(e => e.Url).IsRequired().HasMaxLength(MAX_URL);
+                
+                b.HasIndex(e => e.UserId);
                 b.Property(e => e.UserId).IsRequired().HasMaxLength(LENGTH_USER_ID).IsFixedLength(true);
+                
                 b.Property(e => e.Created).IsRequired();
 
                 b.ToTable("Url");

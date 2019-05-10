@@ -11,12 +11,13 @@ Url Shortener PoC
 
 - scaling	
 	- use NoSql database /?
-	- generate key from MD5 or in db
+	- generate key from MD5 or in db (all hash result are too long)
 	- check collisions (can live with that?)
-	- if we need it as short as possible we need to have a database with empty keys
+	- parallel process to retire slugs, put them into FIFO queue (oldest are the shortest ones)
 	- collisions in distributed db 
 	- could pre-generate/reserve lists of keys in sclaed environment
 	- could be custom primary key generator (0-1 A-Z)
+	- caching probably doesn't make much sense (depends how the urls are used)
 	
 - api versioning
 	- changes in db 
