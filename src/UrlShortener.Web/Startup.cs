@@ -62,6 +62,13 @@ namespace PetrsUrlShortener
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                // shor url redirection
+                routes.MapRoute(
+                    "NotFound",
+                    "{*url}",
+                    new { controller = "Redirect", action = "Go" }
+                );
             });
         }
     }
