@@ -34,11 +34,11 @@ namespace UrlShortener.Data.Sqlite
             return entityEntry.Entity.Id.ToBase36();
         }
 
-        public async Task<ShortenedUrl> Get(string shortUrl)
+        public async Task<ShortenedUrl> Get(string slug)
         {
             try
             { 
-                var url = await _databaseContext.FindAsync<ShortenedUrl>(shortUrl.FromBase36());
+                var url = await _databaseContext.FindAsync<ShortenedUrl>(slug.FromBase36());
 
                 return url;
             }
@@ -55,7 +55,7 @@ namespace UrlShortener.Data.Sqlite
 
             foreach (var url in urls)
             {
-                url.ShortUrl = url.Id.ToBase36();
+                url.Slug = url.Id.ToBase36();
             }
 
             return urls;

@@ -5,6 +5,7 @@ using UrlShortener.Abstractions.Shortener;
 
 namespace PetrsUrlShortener.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class RedirectController: Controller
     {
         private readonly IShortUrlProvider _urlProvider;

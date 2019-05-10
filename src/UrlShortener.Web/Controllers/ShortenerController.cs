@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetrsUrlShortener.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UrlShortener.Abstractions.Model;
 using UrlShortener.Abstractions.Shortener;
@@ -20,12 +21,12 @@ namespace PetrsUrlShortener.Controllers
 
         [HttpPost]
         [Route("")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortenedUrl))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("text/plain")]
         public async Task<IActionResult> Add([FromBody] ShortUrlRequest request)
         {
-            if (string.IsNullOrEmpty(request.Url) || string.IsNullOrEmpty(request.BrowserId))
+            if (string.IsNullOrEmpty(request.Url) || string.IsNullOrEmpty(request.UserId))
             {
                 return BadRequest();
             }
@@ -35,14 +36,14 @@ namespace PetrsUrlShortener.Controllers
                 return BadRequest();
             }
 
-            string slug = await _urlProvider.GenerateSlug(request.Url, request.BrowserId);
+            string slug = await _urlProvider.GenerateSlug(request.Url, request.UserId);
 
             return Content(slug);
         }
 
         [HttpGet]
         [Route("{slug}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortenedUrl))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces("text/plain")]
         public async Task<IActionResult> Get(string slug)
@@ -58,18 +59,18 @@ namespace PetrsUrlShortener.Controllers
         }
 
         [HttpGet]
-        [Route("all/{browserId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortenedUrl))]
+        [Route("all/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyList<ShortenedUrl>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("text/json")]
-        public async Task<IActionResult> GetAll(string browserId)
+        public async Task<IActionResult> GetAll(string userId)
         {
-            if (string.IsNullOrEmpty(browserId))
+            if (string.IsNullOrEmpty(userId))
             {
                 return BadRequest();
             }
 
-            var urls = await _urlProvider.GetUrls(browserId);
+            var urls = await _urlProvider.GetUrls(userId);
 
             return Json(urls);
         }

@@ -8,7 +8,7 @@ namespace UrlShortener.Abstractions
     {
         Task<string> AddUrl(string url, string userId);
 
-        Task<ShortenedUrl> Get(string shortUrl);
+        Task<ShortenedUrl> Get(string slug);
 
         Task<IReadOnlyList<ShortenedUrl>> GetAll(string userId);
     }

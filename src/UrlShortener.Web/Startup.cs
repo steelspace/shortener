@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using UrlShortener.Abstractions.Shortener;
 using UrlShortener.Data.Sqlite;
 using UrlShortener.Shortener;
@@ -33,6 +34,11 @@ namespace PetrsUrlShortener
             services.AddSqliteDataProvider();
             services.AddSingleton<IShortUrlProvider, DbGeneratorShortProvider>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Petr's Url Shortener API", Version = "v1" });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -55,6 +61,15 @@ namespace PetrsUrlShortener
             // app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Petr's Url Shortener API V1");
+            });
 
             app.UseMvc(routes =>
             {

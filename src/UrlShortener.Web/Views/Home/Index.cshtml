@@ -3,8 +3,10 @@
 }
 
 <script type="text/javascript">
+    const host = "http://localhost:5000";
+
     async function onUrlClicked(url) {
-        let slug = await getShortUrl(url);
+        const slug = await getSlug(url);
 
         if (slug == null) {
             alert("Invalid Url.");
@@ -15,15 +17,15 @@
     }
 
     async function onAllUrlsClicked() {
-        let urls = await getUrls();
+        const urls = await getUrls();
 
         $("#urls-container").empty();
 
         $.each(urls, function (i, url) {
-            $("#urls-container").append("<li id='url_" + url.id + "'><a href='http://localhost:5000/" + url.shortUrl + "'>/" + url.shortUrl + " (" + url.url + ")</a></li>");
+            $("#urls-container").append("<li id='url_" + url.id + "'><a href='"
+                                            + host + "/" + url.slug + "'>/" + url.slug + " (" + url.url + ")</a></li>");
         });
     }
-
 </script>
 
 <div class="text-center">
@@ -35,7 +37,7 @@
         <h3>Type url to shorten</h3>
         <input type="text" id="url" name="url" />
         <input type="button" value="Generate Short Url"
-               onclick="onUrlClicked(document.getElementById('url').value)" />
+               onclick="onUrlClicked($('#url').val())" />
         <br />
     </div>
     <div>
